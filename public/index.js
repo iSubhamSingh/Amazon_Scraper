@@ -43,6 +43,19 @@ app.get('/products/:productId/reviews', async (req,res) => {
 
 });
 
+//GET Product by ASIN (Amazon Standard Identification Number)
+app.get('/products/asin/:asin', async (req, res) => {
+    const { asin } = req.params;
+    const { api_key } = req.query;
+
+    try {
+        const response = await request(`${generateScraperUrl(api_key)}&url=https://www.amazon.com/dp/${asin}`);
+        res.json(JSON.parse(response));
+    } catch (error) {
+        res.json(error);
+    }
+});
+
 //GET Product Offers
 
 app.get('/products/:productId/offers', async (req,res) => {
